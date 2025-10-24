@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === "complete" && tab.url) {
-    console.log("User visited:", tab.url);
-    // Later: Check against blacklist/whitelist here
-=======
 // background.js 
 
 let lastClickedUrl = null;
@@ -190,6 +184,5 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.action === "addToBlacklist") {
     addToList("blacklist", msg.value).then(() => sendResponse({ ok: true }));
     return true;
->>>>>>> 376c90a (Initial commit of ClickDefender plugin files)
   }
 });
