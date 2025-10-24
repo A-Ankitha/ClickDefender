@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "ClickDefender",
+  "version": "0.1",
+  "description": "Real-time phishing detection browser plug-in with explainable risk scoring.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "ClickDefender",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "64": "icon64.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://safebrowsing.googleapis.com/*"
+  ]
+}

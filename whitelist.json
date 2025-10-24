@@ -1,0 +1,502 @@
+[
+  {
+    "id": "W01",
+    "url": "https://www.google.com",
+    "domain_root": "google.com"
+  },
+  {
+    "id": "W02",
+    "url": "https://www.youtube.com",
+    "domain_root": "youtube.com"
+  },
+  {
+    "id": "W03",
+    "url": "https://www.facebook.com",
+    "domain_root": "facebook.com"
+  },
+  {
+    "id": "W04",
+    "url": "https://www.baidu.com",
+    "domain_root": "baidu.com"
+  },
+  {
+    "id": "W05",
+    "url": "https://www.wikipedia.org",
+    "domain_root": "wikipedia.org"
+  },
+  {
+    "id": "W06",
+    "url": "https://www.reddit.com",
+    "domain_root": "reddit.com"
+  },
+  {
+    "id": "W07",
+    "url": "https://www.yahoo.com",
+    "domain_root": "yahoo.com"
+  },
+  {
+    "id": "W08",
+    "url": "https://www.qq.com",
+    "domain_root": "qq.com"
+  },
+  {
+    "id": "W09",
+    "url": "https://www.amazon.com",
+    "domain_root": "amazon.com"
+  },
+  {
+    "id": "W10",
+    "url": "https://www.taobao.com",
+    "domain_root": "taobao.com"
+  },
+  {
+    "id": "W11",
+    "url": "https://www.twitter.com",
+    "domain_root": "twitter.com"
+  },
+  {
+    "id": "W12",
+    "url": "https://www.tmall.com",
+    "domain_root": "tmall.com"
+  },
+  {
+    "id": "W13",
+    "url": "https://www.vk.com",
+    "domain_root": "vk.com"
+  },
+  {
+    "id": "W14",
+    "url": "https://www.live.com",
+    "domain_root": "live.com"
+  },
+  {
+    "id": "W15",
+    "url": "https://www.instagram.com",
+    "domain_root": "instagram.com"
+  },
+  {
+    "id": "W16",
+    "url": "https://www.sohu.com",
+    "domain_root": "sohu.com"
+  },
+  {
+    "id": "W17",
+    "url": "https://www.sina.com.cn",
+    "domain_root": "sina.com.cn"
+  },
+  {
+    "id": "W18",
+    "url": "https://www.jd.com",
+    "domain_root": "jd.com"
+  },
+  {
+    "id": "W19",
+    "url": "https://www.weibo.com",
+    "domain_root": "weibo.com"
+  },
+  {
+    "id": "W20",
+    "url": "https://www.360.cn",
+    "domain_root": "360.cn"
+  },
+  {
+    "id": "W21",
+    "url": "https://www.netflix.com",
+    "domain_root": "netflix.com"
+  },
+  {
+    "id": "W22",
+    "url": "https://www.yandex.ru",
+    "domain_root": "yandex.ru"
+  },
+  {
+    "id": "W23",
+    "url": "https://www.list.tmall.com",
+    "domain_root": "list.tmall.com"
+  },
+  {
+    "id": "W24",
+    "url": "https://www.linkedin.com",
+    "domain_root": "linkedin.com"
+  },
+  {
+    "id": "W25",
+    "url": "https://www.twitch.tv",
+    "domain_root": "twitch.tv"
+  },
+  {
+    "id": "W26",
+    "url": "https://www.t.co",
+    "domain_root": "t.co"
+  },
+  {
+    "id": "W27",
+    "url": "https://www.pornhub.com",
+    "domain_root": "pornhub.com"
+  },
+  {
+    "id": "W28",
+    "url": "https://www.alipay.com",
+    "domain_root": "alipay.com"
+  },
+  {
+    "id": "W29",
+    "url": "https://www.xvideos.com",
+    "domain_root": "xvideos.com"
+  },
+  {
+    "id": "W30",
+    "url": "https://www.ebay.com",
+    "domain_root": "ebay.com"
+  },
+  {
+    "id": "W31",
+    "url": "https://www.microsoft.com",
+    "domain_root": "microsoft.com"
+  },
+  {
+    "id": "W32",
+    "url": "https://www.bing.com",
+    "domain_root": "bing.com"
+  },
+  {
+    "id": "W33",
+    "url": "https://www.imgur.com",
+    "domain_root": "imgur.com"
+  },
+  {
+    "id": "W34",
+    "url": "https://www.ok.ru",
+    "domain_root": "ok.ru"
+  },
+  {
+    "id": "W35",
+    "url": "https://www.bongacams.com",
+    "domain_root": "bongacams.com"
+  },
+  {
+    "id": "W36",
+    "url": "https://www.imdb.com",
+    "domain_root": "imdb.com"
+  },
+  {
+    "id": "W37",
+    "url": "https://www.aliexpress.com",
+    "domain_root": "aliexpress.com"
+  },
+  {
+    "id": "W38",
+    "url": "https://www.wikia.com",
+    "domain_root": "wikia.com"
+  },
+  {
+    "id": "W39",
+    "url": "https://www.hao123.com",
+    "domain_root": "hao123.com"
+  },
+  {
+    "id": "W40",
+    "url": "https://www.mail.ru",
+    "domain_root": "mail.ru"
+  },
+  {
+    "id": "W41",
+    "url": "https://www.office.com",
+    "domain_root": "office.com"
+  },
+  {
+    "id": "W42",
+    "url": "https://www.csdn.net",
+    "domain_root": "csdn.net"
+  },
+  {
+    "id": "W43",
+    "url": "https://www.tumblr.com",
+    "domain_root": "tumblr.com"
+  },
+  {
+    "id": "W44",
+    "url": "https://www.msn.com",
+    "domain_root": "msn.com"
+  },
+  {
+    "id": "W45",
+    "url": "https://www.wordpress.com",
+    "domain_root": "wordpress.com"
+  },
+  {
+    "id": "W46",
+    "url": "https://www.microsoftonline.com",
+    "domain_root": "microsoftonline.com"
+  },
+  {
+    "id": "W47",
+    "url": "https://www.whatsapp.com",
+    "domain_root": "whatsapp.com"
+  },
+  {
+    "id": "W48",
+    "url": "https://www.github.com",
+    "domain_root": "github.com"
+  },
+  {
+    "id": "W49",
+    "url": "https://www.apple.com",
+    "domain_root": "apple.com"
+  },
+  {
+    "id": "W50",
+    "url": "mp3raid.com/music/krizz_kaliko.html",
+    "domain_root": "mp3raid.com"
+  },
+  {
+    "id": "W51",
+    "url": "bopsecrets.org/rexroth/cr/1.htm",
+    "domain_root": "bopsecrets.org"
+  },
+  {
+    "id": "W52",
+    "url": "http://buzzfil.net/m/show-art/ils-etaient-loin-de-s-imaginer-que-le-hibou-allait-faire-ceci-quand-ils-filmaient-2.html",
+    "domain_root": "buzzfil.net"
+  },
+  {
+    "id": "W53",
+    "url": "espn.go.com/nba/player/_/id/3457/brandon-rush",
+    "domain_root": "espn.go.com"
+  },
+  {
+    "id": "W54",
+    "url": "yourbittorrent.com/?q=anthony-hamilton-soulife",
+    "domain_root": "yourbittorrent.com"
+  },
+  {
+    "id": "W55",
+    "url": "allmusic.com/album/crazy-from-the-heat-r16990",
+    "domain_root": "allmusic.com"
+  },
+  {
+    "id": "W56",
+    "url": "corporationwiki.com/Ohio/Columbus/frank-s-benson-P3333917.aspx",
+    "domain_root": "corporationwiki.com"
+  },
+  {
+    "id": "W57",
+    "url": "myspace.com/video/vid/30602581",
+    "domain_root": "myspace.com"
+  },
+  {
+    "id": "W58",
+    "url": "quickfacts.census.gov/qfd/maps/iowa_map.html",
+    "domain_root": "quickfacts.census.gov"
+  },
+  {
+    "id": "W59",
+    "url": "nugget.ca/ArticleDisplay.aspx?archive=true&e=1160966",
+    "domain_root": "nugget.ca"
+  },
+  {
+    "id": "W60",
+    "url": "uk.linkedin.com/pub/steve-rubenstein/8/718/755",
+    "domain_root": "uk.linkedin.com"
+  },
+  {
+    "id": "W61",
+    "url": "baseball-reference.com/players/h/harrige01.shtml",
+    "domain_root": "baseball-reference.com"
+  },
+  {
+    "id": "W62",
+    "url": "192.com/atoz/people/oakley/patrick/",
+    "domain_root": "192.com"
+  },
+  {
+    "id": "W63",
+    "url": "nytimes.com/1998/03/29/style/cuttings-oh-that-brazen-raucous-glorious-hibiscus.html",
+    "domain_root": "nytimes.com"
+  },
+  {
+    "id": "W64",
+    "url": "escholarship.org/uc/item/5xt4952c",
+    "domain_root": "escholarship.org"
+  },
+  {
+    "id": "W65",
+    "url": "songfacts.com/detail.php?id=13410",
+    "domain_root": "songfacts.com"
+  },
+  {
+    "id": "W66",
+    "url": "casamanana.org/education/blba/",
+    "domain_root": "casamanana.org"
+  },
+  {
+    "id": "W67",
+    "url": "http://hollywoodlife.com/2014/05/01/rihanna-iheartradio-music-awards-dress-2014-pics/",
+    "domain_root": "hollywoodlife.com"
+  },
+  {
+    "id": "W68",
+    "url": "en.wikipedia.org/wiki/North_Dakota",
+    "domain_root": "en.wikipedia.org"
+  },
+  {
+    "id": "W69",
+    "url": "soaps.sheknows.com/daysofourlives/news/id/20259/Days_Of_Our_Lives_Casts_Ruta_Lee/",
+    "domain_root": "soaps.sheknows.com"
+  },
+  {
+    "id": "W70",
+    "url": "perfectpeople.net/celebrity-star/6920/gidget-gein.htm",
+    "domain_root": "perfectpeople.net"
+  },
+  {
+    "id": "W71",
+    "url": "media.caltech.edu/press_releases/13186",
+    "domain_root": "media.caltech.edu"
+  },
+  {
+    "id": "W72",
+    "url": "wikiobits.com/Obits/TonyProudfoot",
+    "domain_root": "wikiobits.com"
+  },
+  {
+    "id": "W73",
+    "url": "vanderbilt.rivals.com/viewcoach.asp?coach=2079&sport=1&year=2011",
+    "domain_root": "vanderbilt.rivals.com"
+  },
+  {
+    "id": "W74",
+    "url": "movies.yahoo.com/shop?d=hv&cf=info&id=1800340831",
+    "domain_root": "movies.yahoo.com"
+  },
+  {
+    "id": "W75",
+    "url": "cyndislist.com/us/pa/counties",
+    "domain_root": "cyndislist.com"
+  },
+  {
+    "id": "W76",
+    "url": "psychology.wikia.com/wiki/Phonemes",
+    "domain_root": "psychology.wikia.com"
+  },
+  {
+    "id": "W77",
+    "url": "info.centriq.com/content/fivereasons",
+    "domain_root": "info.centriq.com"
+  },
+  {
+    "id": "W78",
+    "url": "articles.baltimoresun.com/1991-06-11/sports/1991162162_1_james-koehler-texas-rangers-terrell-lowery",
+    "domain_root": "articles.baltimoresun.com"
+  },
+  {
+    "id": "W79",
+    "url": "infinitysw.com/",
+    "domain_root": "infinitysw.com"
+  },
+  {
+    "id": "W80",
+    "url": "strawberrycreekgardens.com/",
+    "domain_root": "strawberrycreekgardens.com"
+  },
+  {
+    "id": "W81",
+    "url": "spoke.com/dir/p/desantis/nick",
+    "domain_root": "spoke.com"
+  },
+  {
+    "id": "W82",
+    "url": "wordsmith.org/words/pignus.html",
+    "domain_root": "wordsmith.org"
+  },
+  {
+    "id": "W83",
+    "url": "http://interpark.com/displaycorner/FreeMarket.do?_method=itemCateList&free1=pc&free2=007001008003&free3=item&disp_no=007001008003",
+    "domain_root": "interpark.com"
+  },
+  {
+    "id": "W84",
+    "url": "almanac.logos.com/Denominations",
+    "domain_root": "almanac.logos.com"
+  },
+  {
+    "id": "W85",
+    "url": "gaming.wikia.com/wiki/Backbreaker_(video_game)",
+    "domain_root": "gaming.wikia.com"
+  },
+  {
+    "id": "W86",
+    "url": "ceu.hu/",
+    "domain_root": "ceu.hu"
+  },
+  {
+    "id": "W87",
+    "url": "registry.weddingchannel.com/coupledir/20108/C/R314763282/JARED_CLOUGH_AND_TAJAI_RITCHIE.htm",
+    "domain_root": "registry.weddingchannel.com"
+  },
+  {
+    "id": "W88",
+    "url": "linkedin.com/pub/george-cleveland/7/80a/599",
+    "domain_root": "linkedin.com"
+  },
+  {
+    "id": "W89",
+    "url": "sunshinemills.com/",
+    "domain_root": "sunshinemills.com"
+  },
+  {
+    "id": "W90",
+    "url": "agoda.com/north_america/canada/montreal_qc/attractions/hotels_near_mcgill_university_centre_for_continuing_education.html",
+    "domain_root": "agoda.com"
+  },
+  {
+    "id": "W91",
+    "url": "ctv.ca/generic/WebSpecials/sponsorship_scandal/",
+    "domain_root": "ctv.ca"
+  },
+  {
+    "id": "W92",
+    "url": "veoox.com/tags/game.html",
+    "domain_root": "veoox.com"
+  },
+  {
+    "id": "W93",
+    "url": "chuckwalkertrio.blogspot.com/",
+    "domain_root": "chuckwalkertrio.blogspot.com"
+  },
+  {
+    "id": "W94",
+    "url": "aerosolesshoes.org/",
+    "domain_root": "aerosolesshoes.org"
+  },
+  {
+    "id": "W95",
+    "url": "recipelink.com/msgbrd/board_14/2007/DEC/29094.html",
+    "domain_root": "recipelink.com"
+  },
+  {
+    "id": "W96",
+    "url": "ideas.repec.org/f/pma235.html",
+    "domain_root": "ideas.repec.org"
+  },
+  {
+    "id": "W97",
+    "url": "peopleaz.org/firstname/Fowlkes/6",
+    "domain_root": "peopleaz.org"
+  },
+  {
+    "id": "W98",
+    "url": "orensamtraktrip.wordpress.com/",
+    "domain_root": "orensamtraktrip.wordpress.com"
+  },
+  {
+    "id": "W99",
+    "url": "alexa.com/whatshot?q=james+arness",
+    "domain_root": "alexa.com"
+  },
+  {
+    "id": "W100",
+    "url": "jpopasia.com/group/arashi/discography/",
+    "domain_root": "jpopasia.com"
+  }
+]

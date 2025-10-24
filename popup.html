@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ClickDefender</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <img src="icon128.png" alt="ClickDefender" class="popup-icon">
+    <h3>ClickDefender</h3>
+    <div id="url">URL: <span id="urlText">loading…</span></div>
+    <div id="status">Status: <span id="statusText">—</span></div>
+    <div id="score">Risk Score: <span id="scoreNum">—</span></div>
+    <div id="reasonTitle">Reason:</div>
+    <hr />
+    <div id="reason">—</div>
+
+    <div class="buttons">
+      <button id="continueBtn">Continue (Mark Safe)</button>
+      <button id="exitBtn">Exit (Mark Unsafe)</button>
+    </div>
+    <div id="msg" class="msg"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
