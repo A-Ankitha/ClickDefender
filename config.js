@@ -1,1 +1,0 @@
-export const SAFE_BROWSING_API_KEY = "AIzaSyA6_w-c9pH32BGxgDPJiWb5KBAc0FLJ-64";
