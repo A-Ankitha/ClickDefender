@@ -15,7 +15,7 @@ fetch(chrome.runtime.getURL("blacklist.json"))
   .then(data => { blacklistJson = data; })
   .catch(e => console.warn("Failed to load blacklist.json:", e));
 
-import { SAFE_BROWSING_API_KEY } from '../config.js';
+const SAFE_BROWSING_API_KEY = 'AIzaSyBD7SJp6VGCwa1-CC6q58SI5MJbFwHduWs';
 const searchEngines = ["www.google.com", "www.bing.com", "search.yahoo.com", "duckduckgo.com"];
 
 // Expand short URLs (HEAD -> fallback GET could be added)
