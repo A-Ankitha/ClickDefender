@@ -41,8 +41,8 @@
   },
   {
     "id": "W09",
-    "url": "https://www.amazon.com",
-    "domain_root": "amazon.com"
+    "url": "https://www.amazon.in",
+    "domain_root": "amazon.in"
   },
   {
     "id": "W10",
@@ -366,7 +366,7 @@
   },
   {
     "id": "W74",
-    "url": "movies.yahoo.com/shop?d=hv&cf=info&id=1800340831",
+    "url": "https://www.yahoo.com/entertainment/movies/",
     "domain_root": "movies.yahoo.com"
   },
   {

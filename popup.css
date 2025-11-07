@@ -1,0 +1,39 @@
+:root{
+  --green:#28a745;
+  --red:#d63031;
+  --yellow:#f39c12;
+  --card-bg:#fff;
+  --muted:#666;
+}
+html, body {
+  margin: 0;
+  padding: 8px 8px 8px 8px;   /* small outer padding if you want spacing at top/left */
+  width: 360px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.card {
+  width: calc(95% + 16px); /* extend to cancel the body horizontal padding */
+  margin-left: -8px;        /* pull card to left edge */
+  margin-right: -8px;       /* pull card to right edge */
+  box-sizing: border-box;
+  padding: 20px 30px;
+  border-radius: 15px;
+  background: var(--card-bg);
+  box-shadow: 10px 12px 30px rgba(0,0,0,0.25);
+}
+
+
+.card-header{display:flex;align-items:center;gap:8px;justify-content:space-between;}
+.title{font-weight:700;font-size:15px;}
+.badge{display:flex;align-items:center;gap:8px;font-weight:700;}
+#dot{width:12px;height:12px;border-radius:50%;display:inline-block;background:var(--yellow);}
+#badge-text{font-size:13px;}
+.line{margin-top:8px;font-size:13px;}
+.reasons{margin-top:6px;color:#333;font-size:13px;word-break:break-word;}
+.actions{display:flex;gap:12px;margin-top:12px;}
+.btn{flex:1;padding:8px;border-radius:6px;border:1px solid #ccc;cursor:pointer;font-weight:600}
+.btn-safe{background:#eaf7ee}
+.btn-unsafe{background:#fff0f0}
+.msg{margin-top:8px;font-size:12px}
