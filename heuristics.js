@@ -1,3 +1,4 @@
+// heuristics.js
 import {
   SHORTENERS,
   SUSPICIOUS_TLDS,
@@ -5,6 +6,10 @@ import {
   SUSPICIOUS_WORDS
 } from './shared_constants.js';
 
+/**
+ * Calculates the Levenshtein distance between two strings.
+ * Used for typosquatting detection.
+ */
 function levenshtein(a, b) {
   a = (a || "").toLowerCase();
   b = (b || "").toLowerCase();
@@ -12,20 +17,30 @@ function levenshtein(a, b) {
     n = b.length;
   if (m === 0) return n;
   if (n === 0) return m;
+
   const dp = Array.from({
     length: m + 1
   }, () => new Array(n + 1).fill(0));
   for (let i = 0; i <= m; i++) dp[i][0] = i;
   for (let j = 0; j <= n; j++) dp[0][j] = j;
+
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1, // deletion
+        dp[i][j - 1] + 1, // insertion
+        dp[i - 1][j - 1] + cost // substitution
+      );
     }
   }
   return dp[m][n];
 }
 
+/**
+ * Calculates the Shannon entropy of a string.
+ * Used to detect random, algorithmically-generated domains.
+ */
 function shannonEntropy(str) {
   if (!str) return 0;
   const map = {};
@@ -39,15 +54,22 @@ function shannonEntropy(str) {
   return H;
 }
 
+/**
+ * Runs all heuristic checks on a URL and DOM signals.
+ * Returns a score, a list of reasons, and a status.
+ */
 export function runExplainableHeuristics(url, domSignals, certInfo) {
-  const base = 30;
+  const base = 30; // Start with a neutral score
   let score = base;
   const reasons = [];
-  if (!url) return {
-    score,
-    reasons: ["No URL"],
-    status: "unknown"
-  };
+
+  if (!url) {
+    return {
+      score,
+      reasons: ["No URL"],
+      status: "unknown"
+    };
+  }
 
   try {
     const u = new URL(url);
@@ -56,10 +78,11 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
     const tld = host.split(".").pop() || "";
     const lower = String(url).toLowerCase();
 
+    // Protocol check
     if (lower.startsWith("https://")) {
       score -= 10;
       reasons.push("Uses HTTPS (-10)");
-
+      // SSL Certificate check
       if (certInfo && certInfo.validityDurationDays) {
         if (certInfo.validityDurationDays <= 95) {
           score += 15;
@@ -69,52 +92,69 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
           reasons.push(`Long SSL certificate validity (${certInfo.validityDurationDays} days) (-10)`);
         }
       }
-
     } else if (lower.startsWith("http://")) {
       score += 10;
       reasons.push("No HTTPS (+10)");
     }
 
+    // URL length check
     if (url.length > 75) {
       score += 12;
       reasons.push("Long URL (>75) (+12)");
     }
+
+    // Entropy check
     const ent = shannonEntropy(host + pathQuery);
     if (ent >= 4.0) {
       score += 10;
       reasons.push("High URL entropy (+10)");
     }
+
+    // Subdomain check
     const dotCount = (host.match(/\./g) || []).length;
     if (dotCount >= 3) {
       score += 10;
       reasons.push("Many subdomains (+10)");
     }
+
+    // Hyphen check
     if (host.includes("-")) {
       score += 6;
       reasons.push("Hyphen in domain (+6)");
     }
+
+    // Shortener check
     if (SHORTENERS.includes(host)) {
       score += 18;
       reasons.push("URL shortener (+18)");
     }
+
+    // TLD check
     if (SUSPICIOUS_TLDS.includes(tld)) {
       score += 6;
       reasons.push(`Suspicious TLD .${tld} (+6)`);
     }
+
+    // '@' symbol check
     if (lower.includes("@")) {
       score += 30;
       reasons.push("Contains '@' (+30)");
     }
+
+    // Symbol density check
     const symbolDensity = (pathQuery.match(/[^\w/]/g) || []).length / Math.max(1, pathQuery.length);
     if (symbolDensity > 0.25 && pathQuery.length > 20) {
       score += 10;
       reasons.push("High symbol density in path/query (+10)");
     }
+
+    // Punycode check (IDN homograph attack)
     if (host.includes("xn--")) {
       score += 18;
       reasons.push("IDN/punycode domain (+18)");
     }
 
+    // Brand impersonation (typosquatting) check
     const hostParts = host.split('.');
     const flaggedBrandsInThisRun = new Set();
     for (const part of hostParts) {
@@ -131,6 +171,7 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
       }
     }
 
+    // Suspicious keyword check
     const kwHits = SUSPICIOUS_WORDS.filter(k => lower.includes(k));
     if (kwHits.length >= 2) {
       score += 10;
@@ -146,6 +187,7 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
     reasons.push("Malformed URL (+6)");
   }
 
+  // DOM signal checks (from content.js)
   if (domSignals && typeof domSignals === "object") {
     if (domSignals.passwordForms > 0) {
       score += 8;
@@ -155,6 +197,7 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
       score += 8;
       reasons.push(`Phishing keywords in body: ${domSignals.bodyKeywords.join(", ")} (+8)`);
     }
+    // These signals are not in the provided code, but are good examples
     if (domSignals.suspiciousFormActions && domSignals.suspiciousFormActions.length > 0) {
       score += 30;
       reasons.push(`Form submits data to external domain: ${domSignals.suspiciousFormActions[0]} (+30)`);
@@ -165,11 +208,18 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
     }
   }
 
+  // Final score clamping
   score = Math.min(100, Math.max(0, score));
+
+  // Determine status
   let status = "unknown";
   if (score <= 25) status = "safe";
   else if (score >= 85) status = "dangerous";
   else status = "suspicious";
 
-  return {score, reasons, status};
+  return {
+    score,
+    reasons,
+    status
+  };
 }

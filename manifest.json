@@ -16,14 +16,19 @@
   },
   "action": {
     "default_title": "ClickDefender",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "images/icon48.png",
+      "64": "images/icon64.png"
+    }
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
   },
   "icons": {
-    "64": "icon64.png",
-    "128": "icon128.png"
+    "48": "images/icon48.png",
+    "64": "images/icon64.png",
+    "128": "images/icon128.png"
   },
   "content_scripts": [
     {
@@ -43,8 +48,9 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "icon64.png",
-        "icon128.png",
+        "images/icon48.png",
+        "images/icon64.png",
+        "images/icon128.png",
         "content.css"
       ],
       "matches": [

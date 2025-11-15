@@ -1,6 +1,7 @@
 /* Keyframes for the flicker animation */
 @keyframes flicker-danger {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 5px #d63031, 0 0 10px #d63031, 0 0 20px #d63031, 0 0 40px #ff3838;
   }
   50% {
