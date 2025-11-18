@@ -114,11 +114,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         return true;
     }
     if (msg.action === "addToBlacklist") {
-        addToList("blacklist", msg.value).then(() => sendResponse({
-            ok: true
-        })).catch(e => sendResponse({ ok: false, error: e.message }));
+        markAsUnsafeAndBlock(msg.value)
+            .then(() => sendResponse({ ok: true }))
+            .catch(e => sendResponse({ ok: false, error: e.message }));
         return true;
     }
+
 
     if (msg.action === 'requestPageData') {
         (async () => {
@@ -352,4 +353,25 @@ async function checkSafeBrowsing(url) {
         malicious: false,
         info: null
     };
+}
+// --- AUTO-REMOVE FROM WHITELIST + BLOCK PAGE ---
+async function markAsUnsafeAndBlock(value) {
+    const domain = getDomainFromValue(value);
+
+    // 1. Remove from whitelist
+    const store = await chrome.storage.local.get(["whitelist", "blacklist"]);
+    let whitelist = store.whitelist || [];
+    let blacklist = store.blacklist || [];
+
+    whitelist = whitelist.filter(item => item !== domain);
+    if (!blacklist.includes(domain)) blacklist.push(domain);
+
+    await chrome.storage.local.set({ whitelist, blacklist });
+
+    // 2. Block the active tab immediately
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (tab) {
+        chrome.tabs.update(tab.id, { url: chrome.runtime.getURL("blocked.html") });
+    }
 }

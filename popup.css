@@ -113,22 +113,26 @@ body {
 
 .gauge-background {
   border: 18px solid var(--light-gray);
+  border-bottom-color: transparent;
+  border-radius: 50%;
 }
 
 .gauge-arc {
   border: 18px solid var(--green);
-  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+  border-bottom-color: transparent; 
+  border-radius: 50%;
   transform: rotate(0deg);
+  transform-origin: center center;  
   transition: transform 0.8s ease-out, border-color 0.5s;
 }
-
 .gauge-content {
   position: absolute;
-  bottom: -5px;
+  top: 55%;              
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%); 
   text-align: center;
 }
+
 
 .score-text {
   font-size: 36px;

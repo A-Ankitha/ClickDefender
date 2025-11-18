@@ -71,24 +71,19 @@ async function loadAnalysisView(tabInfo) {
     } = result;
     scoreTextEl.textContent = score;
 
-    // Update gauge
-    const rotation = Math.min(180, (score / 100) * 180);
+    // 1. Calculate rotation normally
+    const rotation = (score / 100) * 180;
     gaugeArcEl.style.transform = `rotate(${rotation}deg)`;
 
-    // Update status text and color
-    if (score <= 25) {
-      statusTextEl.textContent = 'SAFE';
-      statusTextEl.style.color = 'var(--green)';
-      gaugeArcEl.style.borderColor = 'var(--green)';
-    } else if (score < 85) {
-      statusTextEl.textContent = 'SUSPICIOUS';
-      statusTextEl.style.color = 'var(--yellow)';
-      gaugeArcEl.style.borderColor = 'var(--yellow)';
-    } else {
-      statusTextEl.textContent = 'DANGEROUS';
-      statusTextEl.style.color = 'var(--red)';
-      gaugeArcEl.style.borderColor = 'var(--red)';
-    }
+    // 2. Update color based on score
+    let color;
+    if (score <= 25) color = 'var(--green)';
+    else if (score <= 85) color = 'var(--yellow)';
+    else color = 'var(--red)';
+
+    gaugeArcEl.style.borderColor = color;
+    statusTextEl.textContent = score <= 25 ? 'SAFE' : score <= 85 ? 'SUSPICIOUS' : 'DANGEROUS';
+    statusTextEl.style.color = color;
 
     // Populate reasons list
     reasonsListEl.innerHTML = '';
@@ -105,8 +100,7 @@ async function loadAnalysisView(tabInfo) {
     } else {
       reasonsListEl.innerHTML = `<div class="reason-item"><div class="reason-icon"> 🟢 </div><div class="reason-text">No specific risks found.</div></div>`;
     }
-    
-    // 🟩 FIX: Set up the listeners for the separate Mark as Safe/Unsafe buttons
+    // Setup Mark Safe/Unsafe buttons
     const valueToSave = domain || url;
     setupListButtons(valueToSave);
   }
