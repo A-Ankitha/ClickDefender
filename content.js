@@ -1,4 +1,5 @@
 // content.js
+
 (async function() {
   // Do not run in iframes
   if (window.self !== window.top) {

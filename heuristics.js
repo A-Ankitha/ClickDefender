@@ -1,10 +1,20 @@
-// heuristics.js
 import {
   SHORTENERS,
   SUSPICIOUS_TLDS,
   BRANDS,
   SUSPICIOUS_WORDS
 } from './shared_constants.js';
+
+// Extract base domain (e.g., amazon.com, paypal.com)
+function getBaseDomain(url) {
+  try {
+    const hostname = new URL(url).hostname;
+    const parts = hostname.split(".");
+    return parts.slice(-2).join(".");
+  } catch {
+    return "";
+  }
+}
 
 /**
  * Calculates the Levenshtein distance between two strings.
@@ -52,6 +62,30 @@ function shannonEntropy(str) {
     H -= p * Math.log2(p);
   }
   return H;
+}
+function detectBrandImpersonation(url) {
+  let hostname = "";
+  try {
+    hostname = new URL(url).hostname.toLowerCase();
+  } catch {
+    return { flag: false };
+  }
+
+  const baseDomain = getBaseDomain(url).toLowerCase();
+
+  for (const brand of BRANDS) {
+    const b = brand.toLowerCase();
+
+    // If real domain includes brand → NOT a phishing attempt
+    if (baseDomain.includes(b)) continue;
+
+    // If hostname has the brand somewhere else → suspicious
+    if (hostname.includes(b)) {
+      return { flag: true, brand: b };
+    }
+  }
+
+  return { flag: false };
 }
 
 /**
@@ -123,6 +157,13 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
       reasons.push("Hyphen in domain (+6)");
     }
 
+    // Brand Impersonation check
+    const brandCheck = detectBrandImpersonation(url);
+    if (brandCheck.flag) {
+      score += 25;
+      reasons.push(`Brand impersonation suspected: '${brandCheck.brand}' (+25)`);
+    }
+
     // Shortener check
     if (SHORTENERS.includes(host)) {
       score += 18;
@@ -154,23 +195,6 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
       reasons.push("IDN/punycode domain (+18)");
     }
 
-    // Brand impersonation (typosquatting) check
-    const hostParts = host.split('.');
-    const flaggedBrandsInThisRun = new Set();
-    for (const part of hostParts) {
-      for (const brand of BRANDS) {
-        if (part.includes(brand) && !host.endsWith(`.${brand}.com`)) {
-          if (levenshtein(part, brand) <= 2) {
-            if (!flaggedBrandsInThisRun.has(brand)) {
-              score += 25;
-              reasons.push(`Brand impersonation detected: '${brand}' (+25)`);
-              flaggedBrandsInThisRun.add(brand);
-            }
-          }
-        }
-      }
-    }
-
     // Suspicious keyword check
     const kwHits = SUSPICIOUS_WORDS.filter(k => lower.includes(k));
     if (kwHits.length >= 2) {
@@ -183,30 +207,52 @@ export function runExplainableHeuristics(url, domSignals, certInfo) {
 
   } catch (e) {
     console.error("URL parsing failed:", e);
-    score += 6;
+    score += 5;
     reasons.push("Malformed URL (+6)");
   }
 
   // DOM signal checks (from content.js)
   if (domSignals && typeof domSignals === "object") {
-    if (domSignals.passwordForms > 0) {
-      score += 8;
-      reasons.push("Password form present (+8)");
-    }
-    if (domSignals.bodyKeywords && domSignals.bodyKeywords.length > 0) {
-      score += 8;
-      reasons.push(`Phishing keywords in body: ${domSignals.bodyKeywords.join(", ")} (+8)`);
-    }
-    // These signals are not in the provided code, but are good examples
-    if (domSignals.suspiciousFormActions && domSignals.suspiciousFormActions.length > 0) {
-      score += 30;
-      reasons.push(`Form submits data to external domain: ${domSignals.suspiciousFormActions[0]} (+30)`);
-    }
-    if (domSignals.hiddenElements && domSignals.hiddenElements > 20) {
-      score += 10;
-      reasons.push(`High number of hidden elements (${domSignals.hiddenElements}) (+10)`);
-    }
+
+      // --- Password Forms ---
+      if (domSignals.passwordForms > 0) {
+          score += 6;
+          reasons.push("Password form present (+6)");
+      }
+
+      // --- Body Keyword Check with Context ---
+      if (domSignals.bodyKeywords && domSignals.bodyKeywords.length > 0) {
+          const matchedThreats = domSignals.bodyKeywords.filter(k =>
+              SUSPICIOUS_WORDS.includes(k.toLowerCase())
+          );
+
+          // Penalize ONLY if a real phishing-context word is found
+          if (matchedThreats.length > 0) {
+              score += 4;
+              reasons.push(
+                  `Suspicious keyword context detected: ${matchedThreats.join(", ")} (+4)`
+              );
+          }
+      }
+
+
+      // --- Suspicious External Form Action ---
+      if (domSignals.suspiciousFormActions && domSignals.suspiciousFormActions.length > 0) {
+          score += 30;
+          reasons.push(
+              `Form submits data to external domain: ${domSignals.suspiciousFormActions[0]} (+30)`
+          );
+      }
+
+      // --- Hidden Elements ---
+      if (domSignals.hiddenElements && domSignals.hiddenElements > 20) {
+          score += 10;
+          reasons.push(
+              `High number of hidden elements (${domSignals.hiddenElements}) (+10)`
+          );
+      }
   }
+
 
   // Final score clamping
   score = Math.min(100, Math.max(0, score));

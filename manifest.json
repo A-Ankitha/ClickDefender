@@ -1,15 +1,18 @@
+
 {
   "manifest_version": 3,
   "name": "ClickDefender",
   "version": "0.1",
   "description": "Real-time phishing detection browser plug-in with explainable risk scoring.",
   "permissions": [
-    "tabs",
-    "storage",
-    "activeTab",
-    "scripting",
-    "cookies"
-  ],
+  "tabs",
+  "storage",
+  "activeTab",
+  "scripting",
+  "cookies",
+  "downloads"
+],
+
   "background": {
     "service_worker": "background.js",
     "type": "module"

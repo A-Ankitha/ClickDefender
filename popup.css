@@ -1,3 +1,5 @@
+/*popup.css*/
+
 :root {
   --green: #28a745;
   --red: #d63031;
@@ -346,3 +348,23 @@ body {
   overflow-y: auto;
   word-break: break-word;
 }
+#view-history {
+  padding: 15px;
+}
+#history-summary {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+}
+.history-actions {
+    display: flex;
+    justify-content: center;     /* Center all buttons */
+    gap: 10px;                    /* Space between buttons */
+    margin-top: 10px;
+}
+.history-actions button {
+    white-space: nowrap;         /* Prevents buttons from breaking into 2 lines */
+}
+
+

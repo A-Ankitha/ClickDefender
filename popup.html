@@ -10,18 +10,26 @@
 
 <body>
   <div class="card">
+
+    <!-- TABS -->
     <div class="tabs">
       <button id="tab-analysis" class="tab-btn active">Analysis</button>
       <button id="tab-details" class="tab-btn">Page Details</button>
+
+      <!-- NEW: History Tab -->
+      <button id="tab-history" class="tab-btn">History</button>
     </div>
 
-    <!-- View 1: Risk Analysis -->
+    <!-- ------------------------------ -->
+    <!-- View 1: Risk Analysis (ORIGINAL) -->
+    <!-- ------------------------------ -->
     <div id="view-analysis" class="view active">
       
       <div class="header">
         <img src="images/icon64.png" class="header-icon" />
         <div class="title">ClickDefender</div>
       </div>
+
       <div class="gauge-container">
         <div class="gauge-background"></div>
         <div id="gauge-arc" class="gauge-arc"></div>
@@ -30,23 +38,26 @@
           <div id="status-text" class="status-text">Analyzing...</div>
         </div>
       </div>
+
       <div class="reasons-container">
         <div id="reasons-list" class="reasons-list"></div>
       </div>
+
       <div class="actions">
         <button id="mark-safe-btn" class="btn btn-safe"><span class="btn-icon"> 🟢 </span> Mark as Safe</button>
         <button id="mark-unsafe-btn" class="btn btn-unsafe"><span class="btn-icon"> 🔴 </span> Mark as Unsafe</button>
       </div>
+
       <div id="msg" class="msg"></div>
     </div>
 
-    <!-- View 2: Page Details (New Visual Design) -->
+    
     <div id="view-details" class="view">
       <div id="details-loading">Loading page details...</div>
       <div id="details-content" class="hidden">
         <div class="details-grid">
-
-          <!-- Card 1: Core Vitals -->
+          
+          
           <div class="details-card full-width">
             <div class="card-title"><span class="card-icon"> ⚡️ </span> Core Vitals</div>
             <div class="card-body horizontal">
@@ -111,17 +122,19 @@
                 <div class="detail-label">Title Tag</div>
                 <div class="detail-value" id="seo-title">...</div>
               </div>
+
               <div class="detail-item clickable" id="seo-desc-item">
                 <div class="detail-label">Meta Description</div>
                 <div class="detail-value" id="seo-desc">...</div>
               </div>
-              
+
               <div id="seo-desc-full" class="full-text-box hidden"></div>
-              
+
               <div class="detail-item">
                 <div class="detail-label">Primary Heading (H1)</div>
                 <div class="detail-value" id="seo-h1">...</div>
               </div>
+
               <div class="detail-item">
                 <div class="detail-label">Images w/o Alt Text</div>
                 <div class="detail-value" id="seo-alt">...</div>
@@ -133,7 +146,28 @@
       </div>
     </div>
 
+
+    
+    <div id="view-history" class="view">
+
+      <div style="font-weight:600; margin-bottom:10px;">Analysis History</div>
+
+      <div id="history-list" style="max-height:220px; overflow-y:auto; font-size:13px;"></div>
+
+      <div style="margin-top:15px; font-weight:600;">Summary</div>
+      <div id="history-summary" style="margin-bottom:10px;"></div>
+
+      <!-- EXPORT BUTTONS -->
+      <div class="history-actions">
+    <button id="export-json">Export JSON</button>
+    <button id="export-csv">Export CSV</button>
+    <button id="clear-history">🗑️ Clear History</button>
+</div>
+
+    </div>
+
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html>

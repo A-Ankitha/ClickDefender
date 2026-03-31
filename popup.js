@@ -1,5 +1,15 @@
 // popup.js
+
 document.addEventListener("DOMContentLoaded", async () => {
+  const tabAnalysis = document.getElementById('tab-analysis');
+  const tabDetails = document.getElementById('tab-details');
+  const tabHistory = document.getElementById('tab-history'); // NEW
+  const viewAnalysis = document.getElementById('view-analysis');
+  const viewDetails = document.getElementById('view-details');
+  const viewHistory = document.getElementById('view-history'); // NEW
+
+
+  document.addEventListener("DOMContentLoaded", async () => {
   const tabAnalysis = document.getElementById('tab-analysis');
   const tabDetails = document.getElementById('tab-details');
   const viewAnalysis = document.getElementById('view-analysis');
@@ -281,9 +291,6 @@ async function getCookieData(url) {
   }
 }
 
-
-// --- 🟩 NEW LIST MANAGEMENT LOGIC 🟩 ---
-
 /**
  * Helper function to display status messages in the popup UI
  */
@@ -319,9 +326,7 @@ function setupListButtons(value) {
     }
 }
 
-/**
- * Sends a message to the background script to update the list.
- */
+/* Sends a message to the background script to update the list.*/
 function sendListAction(action, value, type) {
     displayStatus(`Marking ${type}...`, 'orange');
     
@@ -343,3 +348,239 @@ function sendListAction(action, value, type) {
         }
     });
 }
+
+  let detailsLoaded = false;
+  let activeTabInfo = null;
+
+  
+  function switchTab(tabName) {
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+
+      document.getElementById(`view-${tabName}`).classList.add("active");
+      document.getElementById(`tab-${tabName}`).classList.add("active");
+  }
+
+  // Analysis tab
+  tabAnalysis.addEventListener('click', () => {
+    switchTab("analysis");
+    if (activeTabInfo) loadAnalysisView(activeTabInfo);
+  });
+
+  // Details tab
+  tabDetails.addEventListener('click', async () => {
+    switchTab("details");
+    if (!detailsLoaded && activeTabInfo) {
+      detailsLoaded = true;
+      loadDetailsView(activeTabInfo);
+    }
+  });
+
+  
+  tabHistory.addEventListener("click", () => {
+    switchTab("history");
+    loadHistory();
+  });
+
+  // Get active tab info on popup load
+  activeTabInfo = await getActiveTabInfo();
+  if (activeTabInfo) {
+    loadAnalysisView(activeTabInfo);
+  } else {
+    document.getElementById("score-text").textContent = '--';
+    document.getElementById("status-text").textContent = 'No Page';
+    document.getElementById("reasons-list").innerHTML =
+      `<div>Cannot access the current page.</div>`;
+  }
+});
+
+
+
+async function loadAnalysisView(tabInfo) {
+  const scoreTextEl = document.getElementById("score-text");
+  const statusTextEl = document.getElementById("status-text");
+  const gaugeArcEl = document.getElementById("gauge-arc");
+  const reasonsListEl = document.getElementById("reasons-list");
+
+  function updateUI(result) {
+    if (!result || typeof result.score !== 'number') {
+      scoreTextEl.textContent = '??';
+      statusTextEl.textContent = 'Analysis Failed';
+      gaugeArcEl.style.borderColor = '#6c757d';
+      gaugeArcEl.style.transform = `rotate(0deg)`;
+      reasonsListEl.innerHTML = `<div>Could not analyze this page. Reload required.</div>`;
+      return;
+    }
+
+    const { score, reasons, url, domain } = result;
+    scoreTextEl.textContent = score;
+
+    const rotation = (score / 100) * 180;
+    gaugeArcEl.style.transform = `rotate(${rotation}deg)`;
+
+    let color;
+    if (score <= 25) color = 'var(--green)';
+    else if (score <= 85) color = 'var(--yellow)';
+    else color = 'var(--red)';
+
+    gaugeArcEl.style.borderColor = color;
+    statusTextEl.textContent = score <= 25 ? 'SAFE' : score <= 85 ? 'SUSPICIOUS' : 'DANGEROUS';
+    statusTextEl.style.color = color;
+
+    reasonsListEl.innerHTML = '';
+    if (reasons && reasons.length > 0) {
+      reasons.forEach(reason => {
+        const isNegative = reason.includes('(-');
+        const icon = isNegative ? ' 🛡️ ' : ' ⚠️ ';
+        const color = isNegative ? 'var(--green)' : 'var(--red)';
+
+        const reasonEl = document.createElement('div');
+        reasonEl.className = 'reason-item';
+        reasonEl.innerHTML =
+          `<div class="reason-icon" style="color: ${color};">${icon}</div>
+           <div class="reason-text">${reason.replace(/\(\S+\)/, '').trim()}
+           <span style="color:#888;font-size:11px;">${reason.match(/\(\S+\)/)?.[0] || ''}</span>
+           </div>`;
+        reasonsListEl.appendChild(reasonEl);
+      });
+    } else {
+      reasonsListEl.innerHTML =
+        `<div class="reason-item"><div class="reason-icon"> 🟢 </div>
+         <div class="reason-text">No specific risks found.</div></div>`;
+    }
+
+    const valueToSave = domain || url;
+    setupListButtons(valueToSave);
+  }
+
+  if (!tabInfo || !tabInfo.url || !tabInfo.url.startsWith('http')) {
+    updateUI(null);
+    return;
+  }
+
+  const result = await getAnalysisResult(tabInfo);
+  updateUI(result);
+}
+
+
+
+async function loadDetailsView(tabInfo) {
+  
+  
+  const loadingEl = document.getElementById('details-loading');
+  const contentEl = document.getElementById('details-content');
+  
+  if (!tabInfo || !tabInfo.url || !tabInfo.url.startsWith('http')) {
+    loadingEl.textContent = "Cannot analyze browser or local pages.";
+    return;
+  }
+
+  loadingEl.classList.remove('hidden');
+  contentEl.classList.add('hidden');
+
+  const [pageData, cookieData] = await Promise.all([
+    getOnPageData(tabInfo.id),
+    getCookieData(tabInfo.url)
+  ]);
+
+  if (!pageData) {
+    loadingEl.textContent = "Failed to get data. Please reload the page and try again.";
+    return;
+  }
+
+  loadingEl.classList.add('hidden');
+  contentEl.classList.remove('hidden');
+  
+}
+
+
+
+async function loadHistory() {
+    const box = document.getElementById("history-list");
+    const summaryBox = document.getElementById("history-summary");
+
+    const { analysisHistory = [] } = await chrome.storage.local.get("analysisHistory");
+
+    if (analysisHistory.length === 0) {
+        box.innerHTML = "<div>No history found.</div>";
+        summaryBox.innerHTML = "";
+        return;
+    }
+
+    box.innerHTML = analysisHistory.map(entry => `
+        <div class="history-item" style="padding:10px;border:1px solid #ccc;border-radius:8px;margin-bottom:8px;">
+            <div><strong>${entry.domain}</strong></div>
+            <div>Status: ${entry.status}</div>
+            <div>Score: ${entry.score}</div>
+            <div style="color:#777;font-size:11px;">
+                ${new Date(entry.timestamp).toLocaleString()}
+            </div>
+        </div>
+    `).join("");
+
+    let safe = 0, suspicious = 0, dangerous = 0;
+
+    analysisHistory.forEach(h => {
+        if (h.status === "safe" || h.status === "SAFE") safe++;
+        else if (h.status === "suspicious") suspicious++;
+        else dangerous++;
+    });
+
+    summaryBox.innerHTML = `
+        <div>🟢 Safe: ${safe}</div>
+        <div>🟡 Suspicious: ${suspicious}</div>
+        <div>🔴 Dangerous: ${dangerous}</div>
+    `;
+}
+
+
+
+document.getElementById("export-json").onclick = async () => {
+    const { analysisHistory = [] } = await chrome.storage.local.get("analysisHistory");
+    downloadFile("clickdefender_history.json", JSON.stringify(analysisHistory, null, 2));
+};
+
+document.getElementById("export-csv").onclick = async () => {
+    const { analysisHistory = [] } = await chrome.storage.local.get("analysisHistory");
+
+    const csv = "domain,status,score,timestamp\n" +
+        analysisHistory.map(h =>
+            `${h.domain},${h.status},${h.score},${h.timestamp}`
+        ).join("\n");
+
+    downloadFile("clickdefender_history.csv", csv);
+};
+
+function downloadFile(filename, content) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+// CLEAR HISTORY
+document.getElementById("clear-history").onclick = async () => {
+    await chrome.storage.local.set({ analysisHistory: [] });
+
+    // Update the UI immediately
+    document.getElementById("history-list").innerHTML = "<div>History cleared.</div>";
+    document.getElementById("history-summary").innerHTML = "";
+
+    alert("History cleared successfully!");
+};
+
+
+
+
+async function getActiveTabInfo() { /* unchanged */ }
+async function getAnalysisResult(tabInfo) { /* unchanged */ }
+async function getOnPageData(tabId) { /* unchanged */ }
+async function getCookieData(url) { /* unchanged */ }
+function displayStatus(message, color='black') { /* unchanged */ }
+function setupListButtons(value) { /* unchanged */ }
+function sendListAction(action, value, type) { /* unchanged */ }

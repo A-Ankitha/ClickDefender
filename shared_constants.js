@@ -1,4 +1,3 @@
-// shared_constants.js
 
 // Common URL shortener domains
 export const SHORTENERS = [
@@ -42,15 +41,12 @@ export const BRANDS = [
 
 // Keywords often found in phishing URLs or page content
 export const SUSPICIOUS_WORDS = [
-  "login",
   "verify",
   "update",
-  "password",
-  "account",
   "billing",
   "secure",
   "confirm",
   "unlock",
-  "limited",
-  "urgent"
+  "urgent",
+  "limited"
 ];
