@@ -1,4 +1,3 @@
-```markdown
 # ClickDefender
 
 Real-time phishing detection browser extension with explainable scoring, Safe Browsing integration, and user feedback looping.
@@ -77,5 +76,3 @@ Status mapping:
 - Kintis et al. “Typosquatting and Lookalike Domains” (NDSS 2017)
 - Jain & Gupta “Survey of Phishing Techniques and Detection” (IEEE Comms Surveys 2018)
 - Google Safe Browsing documentation/papers
-
-```
